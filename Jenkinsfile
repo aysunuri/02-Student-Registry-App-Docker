@@ -1,33 +1,23 @@
-pipeline {
+pipeline{
     agent any
-    tools {
-        nodejs 'NodeJS'
-    }
-    stages {
-        stage('Checkout') {
-            steps {
-                checkout scm
-            }
-        }
-        stage('Set up Node.js') {
-            steps {
-                bat 'node --version'
-                bat 'npm --version'
-            }
-        }
-        stage('Install dependencies') {
-            steps {
+    stages{
+        stage("Install NPM dependencies"){
+            steps{
                 bat 'npm install'
             }
         }
-        stage('Start application') {
-            steps {
-                bat 'start "" /B npm start'
-            }
-        }
-        stage('Run tests') {
-            steps {
-                bat 'npm test'
+        stage("Test and Audit"){
+           parallel{
+                stage("Run unit tests"){
+                    steps{
+                        bat 'npm test'
+                    }
+                }
+                stage("Run integration tests"){
+                    steps{
+                        bat 'npm test'
+                    }
+                }
             }
         }
     }
