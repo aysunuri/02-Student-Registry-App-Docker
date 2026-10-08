@@ -14,9 +14,7 @@ pipeline{
                     }
                 }
                 stage("Run integration tests"){
-                    steps{
-                        bat 'npm test'
-                    }
+                   echo "Integration tests are not implemented yet"
                 }
             }
         }
